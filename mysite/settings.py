@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [u'www.thedevopscourse.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'quiz.apps.QuizConfig',
     'devops',
     'django.contrib.admin',
     'django.contrib.auth',
