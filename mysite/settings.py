@@ -25,7 +25,7 @@ SECRET_KEY = '6s0#p_c!(etq%gn4$5ve#a8l5+p&8^nc4uhf547=ofwv8w9e!('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'www.thedevopscourse.com']
+ALLOWED_HOSTS = [u'www.thedevopscourse.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
