@@ -1,9 +1,19 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
 {% if question_list %}
-    <ul>
+<form action="submit" method="post">
+{% csrf_token %}
     {% for question in question_list %}
-        <li><a href="/quiz/{{ question.id }}/">{{ question.question_text }}</a></li>
+        <h1>{{ question.question_text }}</h1>
+        {% for answer in question.answer_set.all %}
+            <input type="radio" name="{{ question.id }}" id="{{ question.id }}{{ forloop.counter }}" value="{{ answer.id }}">
+            <label for="{{ question.id }}{{ forloop.counter }}">{{ answer.answer_text }}</label><br />
+        {% endfor %} 
     {% endfor %}
-    </ul>
+<input type="submit" value="Sumit">
+</form>
 {% else %}
     <p>No questions are available.</p>
 {% endif %}
+
+
