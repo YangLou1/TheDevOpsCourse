@@ -1,10 +1,6 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import Question, Answer
-
-
-score = 0
-total_points = 0
 
 
 def index(request):
@@ -14,12 +10,9 @@ def index(request):
 
 
 def submit(request):
-    global score, total_points 
-    score = 0
-    total_points = 0
-
+    request.session['score'] = 0
+    request.session['total_points'] = 0
     question_list = Question.objects.all()
-
     for question in question_list:
         try:
             selected_answer_id = request.POST[str(question.id)]
@@ -29,19 +22,15 @@ def submit(request):
                 'question_list': question_list,
                 'error_message': "Please answer all the questions before submitting.",
             })
-        else:             
-            total_points += question.points
+        else:
+            request.session['total_points'] += question.points
             if selected_answer.correct:
-                score += question.points
-
+                request.session['score'] += question.points
     return HttpResponseRedirect('result')
 
 
 def result(request):   
-    global score, total_points      
-    result = {'score': score, 'total_points': total_points}   
-    score = 0
-    total_points = 0
-    return render(request, 'quiz/result.html', result)
+    record = {'score': request.session['score'], 'total_points': request.session['total_points']}
+    return render(request, 'quiz/result.html', record)
 
 
