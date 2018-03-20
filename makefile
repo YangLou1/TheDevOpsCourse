@@ -1,9 +1,8 @@
-# Need to export as ENV var
-export TEMPLATE_DIR = templates
-
+SDIR = quiz
 UDIR = utils
+MUDIR = myutils
 TDIR = tests
-SRCS = $(SDIR)/arithmetic.py $(SDIR)/control_flow.py $(SDIR)/data_mov.py $(SDIR)/interrupts.py 
+SRCS = $(SDIR)/apps.py $(SDIR)/models.py
 
 prod: $(SRCS)
 # run tests here before building!
