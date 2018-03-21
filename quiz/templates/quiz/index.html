@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% if question_list %}
@@ -16,4 +18,4 @@
     <p>No questions are available.</p>
 {% endif %}
 
-
+{% endblock content %}
