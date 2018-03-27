@@ -1,7 +1,17 @@
 from django.db import models
 
 
+class Quiz(models.Model):
+    num_questions = models.IntegerField(default=10)
+    min_pass = models.IntegerField(default=10)
+    title = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
+
+
 class Question(models.Model):
+    quiz = models.ForeignKey(Quiz)
     question_text = models.CharField(max_length=200)
     type = models.CharField(max_length=50)
     topic = models.CharField(max_length=50)
