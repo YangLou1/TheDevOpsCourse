@@ -2,7 +2,13 @@
 {% block content %}
 <div class="module">
     <p>{{ "Your quiz score is "}}{{ score }}{{" out of "}}{{ total_points }}{{" points."}}</p>
-    <p><a href="/quiz">Retake quiz</a></p>
+    {% if pass %}
+        <p> You passed the quiz. </p>
+    {% else %}
+        <p> Sorry, try again. </p>
+    {%  endif %}
+    <p><a href="/quiz/{{ quiz_id }}/">Retake quiz</a></p>
+    <p><a href="/quiz/">Back to List</a></p>
 </div>
 {% endblock content %}
 

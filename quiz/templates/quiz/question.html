@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="module">
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        {% if question_list %}
+        <form action="submit" method="post">
+        <ol>
+        {% csrf_token %}
+            {% for question in question_list %}
+                <li>
+                <h5>{{ question.question_text }}</h5>
+                {% for answer in question.answer_set.all %}
+                    <input type="radio" name="{{ question.id }}" id="{{ question.id }}{{ forloop.counter }}" value="{{ answer.id }}">
+                    <label for="{{ question.id }}{{ forloop.counter }}">{{ answer.answer_text }}</label><br />
+                {% endfor %}
+                </li>
+            {% endfor %}
+            <input type="submit" value="Sumit">
+        </ol>
+        </form>
+        {% else %}
+            <p>No questions are available.</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}
