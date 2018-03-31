@@ -29,7 +29,7 @@ def submit(request, quiz):
             if selected_answer_id == '':
                 raise KeyError
             # if selected_answer_id is not valid and not submitted by the user filling in the form
-            elif int(selected_answer_id) < lower_answer_id or int(selected_answer_id) > upper_answer_id:   
+            elif int(selected_answer_id) < lower_answer_id or int(selected_answer_id) > upper_answer_id:
                 raise Answer.DoesNotExist
             else:
                 selected_answer = question.answer_set.get(pk=selected_answer_id)
