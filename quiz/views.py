@@ -21,13 +21,23 @@ def submit(request, quiz):
     question_list = Question.objects.filter(quiz=quiz)
     for question in question_list:
         try:
+            #get the selected answer's ID by checking its key name question.id              
             selected_answer_id = request.POST[str(question.id)]
-            selected_answer = question.answer_set.get(pk=selected_answer_id)
-        except (KeyError, Answer.DoesNotExist):
+            #selected_answer_id is an empty string if the question is not answered
+            if selected_answer_id == '':
+                raise KeyError
+            #if selected_answer_id is not valid and not submitted by the user filling in the form
+            elif int(selected_answer_id) <= (int(question.id)-1)*3 or int(selected_answer_id) > int(question.id)*3:   
+                raise Answer.DoesNotExist
+            else:
+                selected_answer = question.answer_set.get(pk=selected_answer_id)
+        except KeyError:
             return render(request, 'quiz/question.html', {
                 'question_list': question_list,
-                'error_message': "Please answer all the questions before submitting.",
+                'error_message': "Hey, you forgot to answer question #" + str(question.id),
             })
+        except Answer.DoesNotExist:
+            print("We got back a strange answer with invalid answer_id = " + selected_answer_id)   
         else:
             request.session['total_points'] += question.points
             if selected_answer.correct:
