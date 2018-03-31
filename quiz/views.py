@@ -18,16 +18,18 @@ def detail(request, quiz):
 def submit(request, quiz):
     request.session['score'] = 0
     request.session['total_points'] = 0
+    lower_answer_id = 1
     question_list = Question.objects.filter(quiz=quiz)
     for question in question_list:
+        upper_answer_id = lower_answer_id + Answer.objects.filter(question=question.id).count() - 1
         try:
-            #get the selected answer's ID by checking its key name question.id              
+            # get the selected answer's ID by checking its key name question.id
             selected_answer_id = request.POST[str(question.id)]
-            #selected_answer_id is an empty string if the question is not answered
+            # selected_answer_id is an empty string if the question is not answered
             if selected_answer_id == '':
                 raise KeyError
-            #if selected_answer_id is not valid and not submitted by the user filling in the form
-            elif int(selected_answer_id) <= (int(question.id)-1)*3 or int(selected_answer_id) > int(question.id)*3:   
+            # if selected_answer_id is not valid and not submitted by the user filling in the form
+            elif int(selected_answer_id) < lower_answer_id or int(selected_answer_id) > upper_answer_id:   
                 raise Answer.DoesNotExist
             else:
                 selected_answer = question.answer_set.get(pk=selected_answer_id)
@@ -42,6 +44,7 @@ def submit(request, quiz):
             request.session['total_points'] += question.points
             if selected_answer.correct:
                 request.session['score'] += question.points
+            lower_answer_id = upper_answer_id + 1
     return HttpResponseRedirect('result')
 
 
