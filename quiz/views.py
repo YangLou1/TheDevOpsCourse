@@ -20,7 +20,7 @@ def submit(request, quiz):
     request.session['total_points'] = 0
     lower_answer_id = 1
     question_list = Question.objects.filter(quiz=quiz)
-    for question in question_list:
+    for i, question in enumerate(question_list):
         upper_answer_id = lower_answer_id + Answer.objects.filter(question=question.id).count() - 1
         try:
             # get the selected answer's ID by checking its key name question.id
@@ -36,7 +36,7 @@ def submit(request, quiz):
         except KeyError:
             return render(request, 'quiz/question.html', {
                 'question_list': question_list,
-                'error_message': "Hey, you forgot to answer question #" + str(question.id),
+                'error_message': "Hey, you missed question #" + str(i+1),
             })
         except Answer.DoesNotExist:
             print("We got back a strange answer with invalid answer_id = " + selected_answer_id)   
@@ -54,5 +54,3 @@ def result(request, quiz):
               'total_points': request.session['total_points'],
               'pass': True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False}
     return render(request, 'quiz/result.html', record)
-
-
