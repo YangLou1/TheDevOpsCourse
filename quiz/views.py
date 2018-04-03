@@ -18,33 +18,30 @@ def detail(request, quiz):
 def submit(request, quiz):
     request.session['score'] = 0
     request.session['total_points'] = 0
-    lower_answer_id = 1
     question_list = Question.objects.filter(quiz=quiz)
     for i, question in enumerate(question_list):
-        upper_answer_id = lower_answer_id + Answer.objects.filter(question=question.id).count() - 1
         try:
             # get the selected answer's ID by checking its key name question.id
             selected_answer_id = request.POST[str(question.id)]
-            # selected_answer_id is an empty string if the question is not answered
-            if selected_answer_id == '':
+            # if the question is not answered
+            if not selected_answer_id:
                 raise KeyError
-            # if selected_answer_id is not valid and not submitted by the user filling in the form
-            elif int(selected_answer_id) < lower_answer_id or int(selected_answer_id) > upper_answer_id:
+            # if the received answer is not valid
+            print(selected_answer_id, [x.id for x in Answer.objects.filter(question=question.id)])
+            if selected_answer_id not in [str(x.id) for x in Answer.objects.filter(question=question.id)]:
                 raise Answer.DoesNotExist
-            else:
-                selected_answer = question.answer_set.get(pk=selected_answer_id)
+            selected_answer = question.answer_set.get(pk=selected_answer_id)
         except KeyError:
             return render(request, 'quiz/question.html', {
                 'question_list': question_list,
-                'error_message': "Hey, you missed question #" + str(i+1),
+                'error_message': "You missed question #" + str(i+1)
             })
         except Answer.DoesNotExist:
-            print("We got back a strange answer with invalid answer_id = " + selected_answer_id)   
+            print("We got back a strange answer with invalid answer_id = " + selected_answer_id)
         else:
             request.session['total_points'] += question.points
             if selected_answer.correct:
                 request.session['score'] += question.points
-            lower_answer_id = upper_answer_id + 1
     return HttpResponseRedirect('result')
 
 
