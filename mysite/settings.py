@@ -127,3 +127,4 @@ MEDIA_ROOT = u'/home/devopscourse/mysite/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/devopscourse/mysite/static'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
