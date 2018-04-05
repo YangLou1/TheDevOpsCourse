@@ -27,7 +27,6 @@ def submit(request, quiz):
             if not selected_answer_id:
                 raise KeyError
             # if the received answer is not valid
-            print(selected_answer_id, [x.id for x in Answer.objects.filter(question=question.id)])
             if selected_answer_id not in [str(x.id) for x in Answer.objects.filter(question=question.id)]:
                 raise Answer.DoesNotExist
             selected_answer = question.answer_set.get(pk=selected_answer_id)
