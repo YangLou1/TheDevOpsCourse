@@ -46,6 +46,7 @@ def submit(request, quiz):
 
 def result(request, quiz):
     passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
+    # If the quiz got passed and it is not a repeated submission, accumulate the progress number.
     if passed and request.session['progress'] == int(quiz):
         request.session['progress'] += 1
     record = {'quiz_id': quiz,
@@ -58,6 +59,11 @@ def result(request, quiz):
 
 
 def lesson(request):
+    """
+    Right now, hard code the two quizzes' relationship. The progress number,
+    which is the same as the quiz_id, mark the user's current progress
+    in that lesson.
+    """
     progress = request.session.get('progress', 1)
     if progress >= 3:
         progress = 1
