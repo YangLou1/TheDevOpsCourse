@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="module">
+<h3>Lesson</h3>
+    <p>Course Material ...</p>
+    <a href="/quiz/{{ quiz.id }}/">Take Quiz: {{ quiz.title }}</a>
+</div>
+{% endblock content %}

@@ -45,8 +45,30 @@ def submit(request, quiz):
 
 
 def result(request, quiz):
+    passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
+    if passed and request.session['progress'] == int(quiz):
+        request.session['progress'] += 1
     record = {'quiz_id': quiz,
               'score': request.session['score'],
               'total_points': request.session['total_points'],
-              'pass': True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False}
+              'pass': passed,
+              'progress': request.session['progress']}
+    print(quiz, request.session['progress'])
     return render(request, 'quiz/result.html', record)
+
+
+def lesson(request):
+    progress = request.session.get('progress', 1)
+    if progress >= 3:
+        progress = 1
+    request.session['progress'] = progress
+    print(progress)
+    try:
+        if not Quiz.objects.get(pk=progress):
+            raise Quiz.DoesNotExist
+        context = {'quiz': Quiz.objects.get(pk=progress)}
+    except Quiz.DoesNotExist:
+        return render(request, 'quiz/material.html', {
+            'error_message': "Unable to get quiz #" + request.session['progress']
+        })
+    return render(request, 'quiz/material.html', context)
