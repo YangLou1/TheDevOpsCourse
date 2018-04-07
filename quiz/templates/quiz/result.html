@@ -5,7 +5,7 @@
     {% if pass %}
         <p> You passed the quiz. </p>
         {%  if progress < 3 %}
-            <p><a href="/quiz/lesson/">Next Lesson</a></p>
+            <p><a href="/quiz/lesson/2">Next Lesson</a></p>
         {% else %}
             <p>You've passed all quizzes.</p>
         {% endif %}
@@ -13,7 +13,7 @@
         <p> Sorry, try again. </p>
         <p><a href="/quiz/{{ quiz_id }}/">Retake quiz</a></p>
     {%  endif %}
-    <p><a href="/quiz/">Back to List</a></p>
+    <p><a href="/quiz/">Back to Lessons</a></p>
 </div>
 {% endblock content %}
 

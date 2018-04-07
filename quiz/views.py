@@ -46,7 +46,13 @@ def submit(request, quiz):
 
 def result(request, quiz):
     passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
-    # If the quiz got passed and it is not a repeated submission, accumulate the progress number.
+    # Back to the first page of the lesson if the quiz wasn't passed
+    if not passed:
+        template_path = 'quiz/lesson' + str(request.session['progress']) + '.html'
+        return render(request, template_path, {
+            'error_message': "You didn't pass the quiz. Read the lesson and retake quiz."
+        })
+    # If the quiz got passed and it is not a repeated submission, accumulate the progress number.    
     if passed and request.session['progress'] == int(quiz):
         request.session['progress'] += 1
     record = {'quiz_id': quiz,
@@ -57,12 +63,14 @@ def result(request, quiz):
     return render(request, 'quiz/result.html', record)
 
 
-def lesson(request):
+def lesson(request, lesson):
     """
     Right now, hard code the two quizzes' relationship. The progress number,
     which is the same as the quiz_id, mark the user's current progress
     in that lesson.
     """
+    template_path = 'quiz/lesson' + lesson + '.html'
+    
     progress = request.session.get('progress', 1)
     if progress >= 3:
         progress = 1
@@ -72,7 +80,7 @@ def lesson(request):
             raise Quiz.DoesNotExist
         context = {'quiz': Quiz.objects.get(pk=progress)}
     except Quiz.DoesNotExist:
-        return render(request, 'quiz/material.html', {
+        return render(request, 'quiz/lesson12.html', {
             'error_message': "Unable to get quiz #" + request.session['progress']
         })
-    return render(request, 'quiz/material.html', context)
+    return render(request, template_path, context)

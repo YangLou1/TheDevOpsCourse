@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="module">
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
     <h3>Lessons</h3>
 <ul>
-    <li><a href="/quiz/lesson">Lesson1</a></li>
+    <li><a href="/quiz/lesson/1">The Three Ways of DevOps</a></li>
 </ul>
 </div>
 {% endblock content %}
