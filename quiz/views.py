@@ -53,8 +53,7 @@ def result(request, quiz):
               'score': request.session['score'],
               'total_points': request.session['total_points'],
               'pass': passed,
-              'progress': request.session['progress']}
-    print(quiz, request.session['progress'])
+              'progress': request.session['progress']}    
     return render(request, 'quiz/result.html', record)
 
 
@@ -68,7 +67,6 @@ def lesson(request):
     if progress >= 3:
         progress = 1
     request.session['progress'] = progress
-    print(progress)
     try:
         if not Quiz.objects.get(pk=progress):
             raise Quiz.DoesNotExist
