@@ -46,12 +46,6 @@ def submit(request, quiz):
 
 def result(request, quiz):
     passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
-    # Back to the first page of the lesson if the quiz wasn't passed
-    if not passed:
-        template_path = 'quiz/lesson' + str(request.session['progress']) + '.html'
-        return render(request, template_path, {
-            'error_message': "You didn't pass the quiz. Read the lesson and retake quiz."
-        })
     # If the quiz got passed and it is not a repeated submission, accumulate the progress number.    
     if passed and request.session['progress'] == int(quiz):
         request.session['progress'] += 1
