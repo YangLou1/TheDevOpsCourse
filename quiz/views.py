@@ -69,6 +69,7 @@ def lesson(request, lesson):
     which is the same as the quiz_id, mark the user's current progress
     in that lesson.
     """
+
     template_path = 'quiz/lesson' + lesson + '.html'
     
     progress = request.session.get('progress', 1)
@@ -80,7 +81,7 @@ def lesson(request, lesson):
             raise Quiz.DoesNotExist
         context = {'quiz': Quiz.objects.get(pk=progress)}
     except Quiz.DoesNotExist:
-        return render(request, 'quiz/lesson12.html', {
+        return render(request, template_path, {
             'error_message': "Unable to get quiz #" + request.session['progress']
         })
     return render(request, template_path, context)
