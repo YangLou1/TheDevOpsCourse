@@ -39,7 +39,7 @@ def submit(request, quiz):
             print("We got back a strange answer with invalid answer_id = " + selected_answer_id)
         else:
             request.session['total_points'] += question.points
-            if selected_answer.correct:
+            if selected_answer.correct == '1':
                 request.session['score'] += question.points
     return HttpResponseRedirect('result')
 
