@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class DevopsConfig(AppConfig):
-    name = 'devops'
+    name = 'devops' # type: str

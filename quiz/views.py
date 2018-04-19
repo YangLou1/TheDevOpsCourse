@@ -1,24 +1,29 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import Question, Answer, Quiz
+from django.http import HttpRequest
 
+try:
+    from typing import List,Any,Dict,Union
+except ImportError:
+    print("WARNING: Typing module is not find")
 
-def index(request):
-    quiz_list = Quiz.objects.all()
-    context = {'quiz_list': quiz_list}
+def index(request:HttpRequest)->object:
+    quiz_list = Quiz.objects.all() # type: List[Quiz]
+    context = {'quiz_list': quiz_list}  # Dict[str,List[Quiz]]
     return render(request, 'quiz/index.html', context)
 
 
-def detail(request, quiz):
-    question_list = Question.objects.filter(quiz=quiz)
-    context = {'question_list': question_list}
+def detail(request:HttpRequest, quiz:Quiz)->object:
+    question_list = Question.objects.filter(quiz=quiz) # type: List[Question]
+    context = {'question_list': question_list} # type: Dict[str,List[Question]]
     return render(request, 'quiz/question.html', context)
 
 
-def submit(request, quiz):
+def submit(request:HttpRequest, quiz:Quiz)->object:
     request.session['score'] = 0
     request.session['total_points'] = 0
-    question_list = Question.objects.filter(quiz=quiz)
+    question_list = Question.objects.filter(quiz=quiz) # type: List[Question]
     for i, question in enumerate(question_list):
         try:
             # get the selected answer's ID by checking its key name question.id
@@ -44,7 +49,7 @@ def submit(request, quiz):
     return HttpResponseRedirect('result')
 
 
-def result(request, quiz):
+def result(request:HttpRequest, quiz:Quiz)->object:
     passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
     # If the quiz got passed and it is not a repeated submission, accumulate the progress number.    
     if passed and request.session['progress'] == int(quiz):
@@ -53,27 +58,27 @@ def result(request, quiz):
               'score': request.session['score'],
               'total_points': request.session['total_points'],
               'pass': passed,
-              'progress': request.session['progress']}    
+              'progress': request.session['progress']}      #type: Dict[str,Union[Quiz,int,bool,object]]
     return render(request, 'quiz/result.html', record)
 
 
-def lesson(request, lesson):
+def lesson(request:HttpRequest, lesson:str)->object:
     """
     Right now, hard code the two quizzes' relationship. The progress number,
     which is the same as the quiz_id, mark the user's current progress
     in that lesson.
     """
 
-    template_path = 'quiz/lesson' + lesson + '.html'
+    template_path = 'quiz/lesson' + lesson + '.html' # type: str
     
-    progress = request.session.get('progress', 1)
+    progress = request.session.get('progress', 1) # type: int
     if progress >= 3:
         progress = 1
     request.session['progress'] = progress
     try:
         if not Quiz.objects.get(pk=progress):
             raise Quiz.DoesNotExist
-        context = {'quiz': Quiz.objects.get(pk=progress)}
+        context = {'quiz': Quiz.objects.get(pk=progress)}  # type: Dict[str,List[Quiz]]
     except Quiz.DoesNotExist:
         return render(request, template_path, {
             'error_message': "Unable to get quiz #" + request.session['progress']

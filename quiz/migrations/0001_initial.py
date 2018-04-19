@@ -5,13 +5,17 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 
+try:
+    from typing import List,Any
+except ImportError:
+    print("WARNING: Typing module is not find")
 
 class Migration(migrations.Migration):
 
-    initial = True
+    initial = True # type: bool
 
     dependencies = [
-    ]
+    ]  # type: List[object]
 
     operations = [
         migrations.CreateModel(
@@ -51,4 +55,4 @@ class Migration(migrations.Migration):
             name='question',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quiz.Question'),
         ),
-    ]
+    ] # type: List[Any]
