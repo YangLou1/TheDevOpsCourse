@@ -4,9 +4,10 @@ from .models import Question, Answer, Quiz
 from django.http import HttpRequest
 
 try:
-    from typing import List,Any,Dict,Union
+    from typing import List, Any, Dict, Union
 except ImportError:
     print("WARNING: Typing module is not find")
+
 
 def index(request:HttpRequest)->object:
     quiz_list = Quiz.objects.all() # type: List[Quiz]
@@ -15,15 +16,15 @@ def index(request:HttpRequest)->object:
 
 
 def detail(request:HttpRequest, quiz:Quiz)->object:
-    question_list = Question.objects.filter(quiz=quiz) # type: List[Question]
-    context = {'question_list': question_list} # type: Dict[str,List[Question]]
+    question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
+    context = {'question_list': question_list}  # type: Dict[str,List[Question]]
     return render(request, 'quiz/question.html', context)
 
 
 def submit(request:HttpRequest, quiz:Quiz)->object:
     request.session['score'] = 0
     request.session['total_points'] = 0
-    question_list = Question.objects.filter(quiz=quiz) # type: List[Question]
+    question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
     for i, question in enumerate(question_list):
         try:
             # get the selected answer's ID by checking its key name question.id
@@ -58,7 +59,7 @@ def result(request:HttpRequest, quiz:Quiz)->object:
               'score': request.session['score'],
               'total_points': request.session['total_points'],
               'pass': passed,
-              'progress': request.session['progress']}      #type: Dict[str,Union[Quiz,int,bool,object]]
+              'progress': request.session['progress']}  # type: Dict[str,Union[Quiz,int,bool,object]]
     return render(request, 'quiz/result.html', record)
 
 
@@ -69,9 +70,9 @@ def lesson(request:HttpRequest, lesson:str)->object:
     in that lesson.
     """
 
-    template_path = 'quiz/lesson' + lesson + '.html' # type: str
+    template_path = 'quiz/lesson' + lesson + '.html'  # type: str
     
-    progress = request.session.get('progress', 1) # type: int
+    progress = request.session.get('progress', 1)  # type: int
     if progress >= 3:
         progress = 1
     request.session['progress'] = progress
