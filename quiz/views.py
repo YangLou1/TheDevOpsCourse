@@ -9,19 +9,19 @@ except ImportError:
     print("WARNING: Typing module is not find")
 
 
-def index(request:HttpRequest)->object:
+def index(request: HttpRequest)->object:
     quiz_list = Quiz.objects.all() # type: List[Quiz]
     context = {'quiz_list': quiz_list}  # Dict[str,List[Quiz]]
     return render(request, 'quiz/index.html', context)
 
 
-def detail(request:HttpRequest, quiz:Quiz)->object:
+def detail(request: HttpRequest, quiz: Quiz)->object:
     question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
     context = {'question_list': question_list}  # type: Dict[str,List[Question]]
     return render(request, 'quiz/question.html', context)
 
 
-def submit(request:HttpRequest, quiz:Quiz)->object:
+def submit(request: HttpRequest, quiz:Quiz)->object:
     request.session['score'] = 0
     request.session['total_points'] = 0
     question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
@@ -50,7 +50,7 @@ def submit(request:HttpRequest, quiz:Quiz)->object:
     return HttpResponseRedirect('result')
 
 
-def result(request:HttpRequest, quiz:Quiz)->object:
+def result(request: HttpRequest, quiz: Quiz)->object:
     passed = True if request.session['score'] >= Quiz.objects.get(id=quiz).min_pass else False
     # If the quiz got passed and it is not a repeated submission, accumulate the progress number.    
     if passed and request.session['progress'] == int(quiz):
@@ -63,7 +63,7 @@ def result(request:HttpRequest, quiz:Quiz)->object:
     return render(request, 'quiz/result.html', record)
 
 
-def lesson(request:HttpRequest, lesson:str)->object:
+def lesson(request: HttpRequest, lesson: str)->object:
     """
     Right now, hard code the two quizzes' relationship. The progress number,
     which is the same as the quiz_id, mark the user's current progress
