@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^quiz/', include('quiz.urls')),
     url(r'^devops/', include('devops.urls')),
+    url(r'', include('quiz.urls')),
+
 ]
