@@ -12,7 +12,7 @@ except ImportError:
 
 class Migration(migrations.Migration):
 
-    initial = True # type: bool
+    initial = True  # type: bool
 
     dependencies = [
     ]  # type: List[object]
@@ -55,4 +55,4 @@ class Migration(migrations.Migration):
             name='question',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quiz.Question'),
         ),
-    ] # type: List[Any]
+    ]  # type: List[Any]

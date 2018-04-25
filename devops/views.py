@@ -3,7 +3,7 @@ from django.http import request
 
 # Create your views here.
 
-site_hdr = "Welcome to the DevOps course." # type: str
+site_hdr = "Welcome to the DevOps course."  # type: str
 
 
 def index(request: request)->object:
