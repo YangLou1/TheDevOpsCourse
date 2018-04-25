@@ -78,11 +78,9 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db',
-        'USER': 'devops',
-        'PASSWORD': 'nyu123456',
-        'HOST': 'db.c4x1mr3ptoih.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'connection.cnf'),
+        },
     }
 }
 
