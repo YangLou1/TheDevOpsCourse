@@ -10,18 +10,23 @@ except ImportError:
 
 
 def index(request: HttpRequest)->object:
-    quiz_list = Quiz.objects.all() # type: List[Quiz]
+    quiz_list = Quiz.objects.all()  # type: List[Quiz]
     context = {'quiz_list': quiz_list}  # Dict[str,List[Quiz]]
     return render(request, 'quiz/index.html', context)
 
 
 def detail(request: HttpRequest, quiz: Quiz)->object:
+    progress = request.session.get('progress', 1)  # type: int
+    if int(quiz) > progress:
+        return render(request, 'quiz/question.html', {
+            'error_message': "You cannot take this quiz!"
+        })
     question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
     context = {'question_list': question_list}  # type: Dict[str,List[Question]]
     return render(request, 'quiz/question.html', context)
 
 
-def submit(request: HttpRequest, quiz:Quiz)->object:
+def submit(request: HttpRequest, quiz: Quiz)->object:
     request.session['score'] = 0
     request.session['total_points'] = 0
     question_list = Question.objects.filter(quiz=quiz)  # type: List[Question]
