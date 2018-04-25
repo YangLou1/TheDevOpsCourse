@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6s0#p_c!(etq%gn4$5ve#a8l5+p&8^nc4uhf547=ofwv8w9e!('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [u'www.thedevopscourse.com', '127.0.0.1', 'localhost']
 
