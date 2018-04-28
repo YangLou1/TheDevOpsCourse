@@ -75,8 +75,7 @@ def lesson(request: HttpRequest, lesson: str)->object:
     in that lesson.
     """
 
-    template_path = 'quiz/lesson' + lesson + '.html'  # type: str
-    
+    template_path = 'quiz/lesson' + lesson + '.html'  # type: str    
     progress = request.session.get('progress', 1)  # type: int
     if progress >= 3:
         progress = 1
@@ -84,7 +83,13 @@ def lesson(request: HttpRequest, lesson: str)->object:
     try:
         if not Quiz.objects.get(pk=progress):
             raise Quiz.DoesNotExist
-        context = {'quiz': Quiz.objects.get(pk=progress)}  # type: Dict[str,List[Quiz]]
+        # if user have submitted the lesson's quiz and then retake the same lesson
+        if int(lesson[0]) < progress:
+            quiz_id = int(lesson[0])
+        # if the lesson's number is equal to the progress number
+        else:
+            quiz_id = progress
+        context = {'quiz': Quiz.objects.get(pk=quiz_id)}
     except Quiz.DoesNotExist:
         return render(request, template_path, {
             'error_message': "Unable to get quiz #" + request.session['progress']
