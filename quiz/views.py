@@ -89,7 +89,7 @@ def lesson(request: HttpRequest, lesson: str)->object:
         # if the lesson's number is equal to the progress number
         else:
             quiz_id = progress
-        context = {'quiz': Quiz.objects.get(pk=quiz_id)}
+        context = {'quiz': Quiz.objects.get(pk=quiz_id)}  # type: Dict[str,List[Quiz]]
     except Quiz.DoesNotExist:
         return render(request, template_path, {
             'error_message': "Unable to get quiz #" + request.session['progress']
