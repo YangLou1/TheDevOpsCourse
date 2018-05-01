@@ -1,7 +1,0 @@
-[client]
-database = 'db'
-host = 'db.c4x1mr3ptoih.us-east-1.rds.amazonaws.com'
-port = '3306'
-user = 'devops'
-password = 'nyu123456'
-default-character-set = utf8
