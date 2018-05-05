@@ -3,7 +3,6 @@
     <div class="module">
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        <a href="/quiz/lesson/11">Previous Page</a>
         <h3>The Three Ways of DevOps</h3>
         <h4>3. Culture of Continual Experimentation and Learning</h4>
         <figure>
@@ -12,14 +11,24 @@
                     allow="autoplay; encrypted-media" allowfullscreen>
             </iframe>
             <figcaption>
-                Stack Overflow SRE Manager Thomas Limoncelli talks about DevOps. 
+                Stack Overflow SRE Manager Thomas Limoncelli talks about DevOps.
             </figcaption>
         </figure>
-        For more information about the talk, you can check out the 
-        <a href="https://www.usenix.org/conference/lisa16/conference-program/presentation/limoncelli">
-            USENIX Association LISA16
-        </a>
+        <div style="text-align: center;">
+            For more information about the talk, you can check out the
+            <a href="https://www.usenix.org/conference/lisa16/conference-program/presentation/limoncelli">
+                USENIX Association LISA16
+            </a>
+        </div>
         </br></br>
-        Take Quiz: <a href="/quiz/{{ quiz.id }}/">{{ quiz.title }}</a>
+        <div style="float: left;">
+            &nbsp;&nbsp;&nbsp;
+            <a href="/quiz/lesson/11">Go to Previous Page</a>
+        </div>
+        <div style="float: right;">
+            Take Quiz: <a href="/quiz/{{ quiz.id }}/">{{ quiz.title }}</a>
+            &nbsp;&nbsp;&nbsp;
+        </div>
+        </br></br>
     </div>
 {% endblock content %}

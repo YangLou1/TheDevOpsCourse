@@ -3,10 +3,16 @@
     <div class="module">
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        <a href="/quiz/lesson/1">Previous Page</a>
         <h3>The Three Ways of DevOps</h3>
         <h4>2. Amplify Feedback Loops</h4>
         </br></br>
-        <a href="/quiz/lesson/12">Next Page</a>
+        <div style="float: left;">
+            &nbsp;&nbsp;&nbsp;
+            <a href="/quiz/lesson/1">Go to Previous Page</a>
+        </div>
+        <div style="float: right;">
+            <a href="/quiz/lesson/12">Go to Next Page</a>
+            &nbsp;&nbsp;&nbsp;
+        </div>
     </div>
 {% endblock content %}

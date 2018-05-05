@@ -3,10 +3,17 @@
     <div class="module">
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        <a href="/quiz/lesson/2">Previous Page</a>
         <h3>Minimum Viable Product</h3>
         <h4>Delivering some values as soon as possible.</h4>
-        </br></br>        
-        Take Quiz: <a href="/quiz/{{ quiz.id }}/">{{ quiz.title }}</a>
+        </br></br>
+        <div style="float: left;">
+            &nbsp;&nbsp;&nbsp;
+            <a href="/quiz/lesson/2">Go to Previous Page</a>
+        </div>
+        <div style="float: right;">
+            Take Quiz: <a href="/quiz/{{ quiz.id }}/">{{ quiz.title }}</a>
+            &nbsp;&nbsp;&nbsp;
+        </div>
+        </br></br>
     </div>
 {% endblock content %}
