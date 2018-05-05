@@ -36,4 +36,3 @@ class AnswerTestCase(TestCase):
         mocked_question = Question.objects.get(question_text="test_question")
         answer = Answer.objects.get(question=mocked_question)
         self.assertEqual(answer.answer_text, "test_answer_text")
-
