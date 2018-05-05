@@ -3,10 +3,10 @@
 <div class="module">
     <p>{{ "Your quiz score is "}}{{ score }}{{" out of "}}{{ total_points }}{{" points."}}</p>
     {% if pass %}
-        <p> You passed the quiz. </p>
+        <p> You passed the quiz on {{ quiz.title }}. </p>
         {%  if progress < 3 %}
             <div style="float: right;">
-                <a href="/quiz/lesson/2">Start Next Lesson</a>
+                <p><a href="/quiz/lesson/2">Start Next Lesson</a></p>
                 &nbsp;&nbsp;&nbsp;
             </div>
         {% else %}
@@ -14,11 +14,11 @@
         {% endif %}
     {% else %}
         <p>You didn't pass the quiz. Read the lesson again or retake quiz.</p>
-        <p><a href="/quiz/{{ quiz_id }}/">Retake quiz</a></p>
+        <p><a href="/quiz/{{ quiz.id }}/">Retake quiz</a></p>
     {%  endif %}
     <div style="float: left;">
             &nbsp;&nbsp;&nbsp;
-            <a href="/quiz">Back to The DevOps Lessons</a>
+            <p><a href="/quiz">Back to The DevOps Lessons</a></p>
     </div>
 </div>
 {% endblock content %}
