@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% block title %}The DevOps Quiz Result{% endblock %}
+
 {% block content %}
 <div class="module">
     <p>{{ "Your quiz score is "}}{{ score }}{{" out of "}}{{ total_points }}{{" points."}}</p>
